@@ -1,3 +1,7 @@
+//Dileesha Patel
+//dmp224
+//February 13, 2023
+
 <?php
 $a1 = [10.001, 11.591, 0.011, 5.991, 16.121, 0.131, 100.981, 1.001];
 $a2 = [1.99, 1.99, 0.99, 1.99, 0.99, 1.99, 0.99, 0.99];
@@ -9,7 +13,7 @@ function getTotal($arr) {
     foreach ($arr as $x){
         $total = $x + $total;
     }
-    $total = format($total, 2);
+    $total = number_format($total, 2);
     echo "The total is " . var_export($total, true);
 }
 echo "Problem 2: Adding Floats<br>";

@@ -1,3 +1,7 @@
+//Dileesha Patel
+//February 13, 2023
+
+
 <?php
 $a1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 $a2 = [0, 1, 3, 5, 7, 9, 2, 4, 6, 8, 10];
@@ -6,7 +10,7 @@ $a4 = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10];
 function processArray($arr) {
     echo "<br>Processing Array:<br><pre>" . var_export($arr, true) . "</pre>";
     echo "<br>Odds output:<br>";
-    
+
     for($i=0; $i<count($arr); $i++){
         if($arr[$i]%2!=0)
         echo $arr[$i]." ";
