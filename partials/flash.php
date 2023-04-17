@@ -1,6 +1,6 @@
 <?php
 /*put this at the bottom of the page so any templates
-populate the flash variable and then display at the proper timing*/
+ populate the flash variable and then display at the proper timing*/
 ?>
 <div class="container" id="flash">
     <?php $messages = getMessages(); ?>
@@ -23,20 +23,3 @@ populate the flash variable and then display at the proper timing*/
 
     moveMeUp(document.getElementById("flash"));
 </script>
-<style>
-    .alert-success {
-        background-color: green
-    }
-
-    .alert-warning {
-        background-color: yellow;
-    }
-
-    .alert-danger {
-        background-color: red;
-    }
-
-    .alert-info {
-        background-color: teal;
-    }
-</style>
