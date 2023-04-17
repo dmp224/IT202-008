@@ -1,5 +1,5 @@
 <?php
-    require(__DIR__ . "/../../lib/functions.php");
+    require(__DIR__ . "/../../partials/nav.php");
 ?>
 <form onsubmit="return validate(this)" method="POST">
     <div>
@@ -29,15 +29,14 @@
 </script>
 <?php
 if(isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm"])){
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    $confirm = $_POST["confirm"];
-}
-
-$hasError = false;
-if (empty($email)){
-    echo "Email must not be empty";
-    $hasError = true;
+    $email = se($_POST, "email", "", false);
+    $password = se($_POST, "password", "", false);
+    $confirm = se($_POST, "confirm", "", false);
+    $hasError = false;
+    if (empty($email)){
+        echo "Email must not be empty";
+        $hasError = true;
+    }
 }
 
 $email = filter_var($email, FILTER_SANITIZE_EMAIL);
