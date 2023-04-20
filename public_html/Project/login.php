@@ -117,6 +117,6 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 }
 ?>
 <?php require_once(__DIR__ . "/../../partials/flash.php");
-
+?>
 
 
