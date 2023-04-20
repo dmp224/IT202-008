@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 <?php
 require_once(__DIR__ . "/../lib/functions.php");
 //Note: this is to resolve cookie issues with port numbers
@@ -52,3 +54,4 @@ session_start();
         <?php endif; ?>
     </ul>
 </nav>
+>>>>>>> 07241b6b23021430f4daabd1cbc26051c258267e
