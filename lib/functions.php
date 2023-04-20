@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 <?php
 //TODO 1: require db.php
 require_once(__DIR__ . "/db.php");
@@ -23,3 +25,4 @@ require(__DIR__ . "/reset_session.php");
 
 require(__DIR__ . "/get_url.php");
 ?>
+>>>>>>> 5cbcd433cf04da1b6730dc2d803ff78bd4fe0a30

@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 <?php
 require(__DIR__ . "/../../partials/nav.php");
 reset_session();
@@ -88,3 +90,4 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
 <?php
 require(__DIR__ . "/../../partials/flash.php");
 ?>
+>>>>>>> 5cbcd433cf04da1b6730dc2d803ff78bd4fe0a30
