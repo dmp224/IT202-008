@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+
+?>
+=======
+<<<<<<< HEAD
+=======
 <?php
 require_once(__DIR__ . "/../../partials/nav.php");
 ?>
@@ -115,5 +121,12 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     }
 }
 ?>
+<<<<<<< HEAD:public_html/Project/login.php
 <?php require_once(__DIR__ . "/../../partials/flash.php");
 ?>
+=======
+<?php
+require(__DIR__ . "/../../partials/flash.php");
+?>
+
+>>>>>>> b50a163a84d305e5ec39e2aeaf296c3315137804:public_html/Project/sql/login.php
