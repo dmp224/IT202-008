@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
 <?php
 require(__DIR__ . "/../../partials/nav.php");
 ?>
@@ -12,3 +16,5 @@ if (is_logged_in(true)) {
 <?php
 require(__DIR__ . "/../../partials/flash.php");
 ?>
+>>>>>>> 5cbcd433cf04da1b6730dc2d803ff78bd4fe0a30
+>>>>>>> 07241b6b23021430f4daabd1cbc26051c258267e

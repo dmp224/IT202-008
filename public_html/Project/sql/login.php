@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+
+?>
+=======
+<<<<<<< HEAD
+=======
 <?php
 require(__DIR__ . "/../../partials/nav.php");
 ?>
@@ -107,3 +113,4 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 <?php
 require(__DIR__ . "/../../partials/flash.php");
 ?>
+>>>>>>> 5cbcd433cf04da1b6730dc2d803ff78bd4fe0a30
