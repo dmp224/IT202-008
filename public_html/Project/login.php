@@ -116,11 +116,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     }
 }
 ?>
-<<<<<<< HEAD:public_html/Project/login.php
 <?php require_once(__DIR__ . "/../../partials/flash.php");
 ?>
-=======
-<?php
-require(__DIR__ . "/../../partials/flash.php");
-?>
+
 
