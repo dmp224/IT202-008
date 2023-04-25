@@ -20,4 +20,3 @@ function users_check_duplicate($errorInfo)
         error_log(var_export($errorInfo, true));
     }
 }
-?>

@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
 <?php
 require(__DIR__ . "/../../partials/nav.php");
 reset_session();
@@ -83,7 +79,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
         try {
             $stmt->execute([":email" => $email, ":password" => $hash, ":username" => $username]);
             flash("Successfully registered!", "success");
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             users_check_duplicate($e->errorInfo);
         }
     }
@@ -92,5 +88,3 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
 <?php
 require(__DIR__ . "/../../partials/flash.php");
 ?>
->>>>>>> 5cbcd433cf04da1b6730dc2d803ff78bd4fe0a30
->>>>>>> 07241b6b23021430f4daabd1cbc26051c258267e
