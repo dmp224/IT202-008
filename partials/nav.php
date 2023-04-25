@@ -30,13 +30,13 @@ session_start();
 <nav>
     <ul>
         <?php if (is_logged_in()) : ?>
-<<<<<<< HEAD
-=======
+
+
 
             <li><a href="home.php">Home</a></li>
             <li><a href="profile.php">Profile</a></li>
 
->>>>>>> 17d6be676001bd1b4ca686ad3a88259196423f09
+
             <li><a href="<?php echo get_url('home.php'); ?>">Home</a></li>
             <li><a href="<?php echo get_url('profile.php'); ?>">Profile</a></li>
         <?php endif; ?>
@@ -53,8 +53,8 @@ session_start();
             <li><a href="<?php echo get_url('logout.php'); ?>">Logout</a></li>
         <?php endif; ?>
     </ul>
-<<<<<<< HEAD
+
 </nav>
-=======
+
 </nav>
->>>>>>> 17d6be676001bd1b4ca686ad3a88259196423f09
+
