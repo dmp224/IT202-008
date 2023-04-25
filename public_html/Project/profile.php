@@ -6,6 +6,7 @@ is_logged_in(true);
 if (isset($_POST["save"])) {
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
+<<<<<<< HEAD
 
     $params = [":email" => $email, ":username" => $username, ":id" => get_user_id()];
     $db = getDB();
@@ -19,6 +20,39 @@ if (isset($_POST["save"])) {
             preg_match("/Users.(\w+)/", $e->errorInfo[2], $matches);
             if (isset($matches[1])) {
                 flash("The chosen " . $matches[1] . " is not available.", "warning");
+=======
+    $hasError = false;
+    //sanitize
+    $email = sanitize_email($email);
+    //validate
+    if (!is_valid_email($email)) {
+        flash("Invalid email address", "danger");
+        $hasError = true;
+    }
+    if (!is_valid_username($username)) {
+        flash("Username must only contain 3-16 characters a-z, 0-9, _, or -", "danger");
+        $hasError = true;
+    }
+    if (!$hasError) {
+        $params = [":email" => $email, ":username" => $username, ":id" => get_user_id()];
+        $db = getDB();
+        $stmt = $db->prepare("UPDATE Users set email = :email, username = :username where id = :id");
+        try {
+            $stmt->execute($params);
+            flash("Profile saved", "success");
+        } catch (PDOException $e) {
+            users_check_duplicate($e->errorInfo);
+        }
+        //select fresh data from table
+        $stmt = $db->prepare("SELECT id, email, username from Users where id = :id LIMIT 1");
+        try {
+            $stmt->execute([":id" => get_user_id()]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($user) {
+                //$_SESSION["user"] = $user;
+                $_SESSION["user"]["email"] = $user["email"];
+                $_SESSION["user"]["username"] = $user["username"];
+>>>>>>> 17d6be676001bd1b4ca686ad3a88259196423f09
             } else {
                 //TODO come up with a nice error message
                 echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
@@ -70,6 +104,11 @@ if (isset($_POST["save"])) {
                     } else {
                         flash("Current password is invalid", "warning");
                     }
+<<<<<<< HEAD
+=======
+                } catch (PDOException $e) {
+                    echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
+>>>>>>> 17d6be676001bd1b4ca686ad3a88259196423f09
                 }
             } catch (PDOException $e) {
                 echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
