@@ -6,7 +6,7 @@ is_logged_in(true);
 if (isset($_POST["save"])) {
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
-<<<<<<< HEAD
+
 
     $params = [":email" => $email, ":username" => $username, ":id" => get_user_id()];
     $db = getDB();
@@ -20,7 +20,7 @@ if (isset($_POST["save"])) {
             preg_match("/Users.(\w+)/", $e->errorInfo[2], $matches);
             if (isset($matches[1])) {
                 flash("The chosen " . $matches[1] . " is not available.", "warning");
-=======
+
     $hasError = false;
     //sanitize
     $email = sanitize_email($email);
@@ -52,7 +52,7 @@ if (isset($_POST["save"])) {
                 //$_SESSION["user"] = $user;
                 $_SESSION["user"]["email"] = $user["email"];
                 $_SESSION["user"]["username"] = $user["username"];
->>>>>>> 17d6be676001bd1b4ca686ad3a88259196423f09
+
             } else {
                 //TODO come up with a nice error message
                 echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
@@ -104,11 +104,10 @@ if (isset($_POST["save"])) {
                     } else {
                         flash("Current password is invalid", "warning");
                     }
-<<<<<<< HEAD
-=======
+
                 } catch (PDOException $e) {
                     echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
->>>>>>> 17d6be676001bd1b4ca686ad3a88259196423f09
+
                 }
             } catch (PDOException $e) {
                 echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
