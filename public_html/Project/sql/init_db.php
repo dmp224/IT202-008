@@ -108,7 +108,7 @@ try {
         echo "<p>Didn't find any files, please check the directory/directory contents/permissions (note files must end in .sql)</p>";
     }
     $db = null;
-} catch (Exception $e) {
+} catch (PDOException $e) {
     echo $e->getMessage();
     exit("Something went wrong");
 }
