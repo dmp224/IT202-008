@@ -1,6 +1,9 @@
 <?php
 require_once(__DIR__ . "/../../partials/nav.php");
 ?>
+<div class="page container-fluid">
+<?php require_once(__DIR__ . "/../../partials/flash.php");
+?>
 <form onsubmit="return validate(this)" method="POST">
     <div>
         <label for="email">Email/Username</label>
@@ -12,6 +15,7 @@ require_once(__DIR__ . "/../../partials/nav.php");
     </div>
     <input type="submit" value="Login" />
 </form>
+</div>
 <script>
     function validate(form) {
         //TODO 1: implement JavaScript validation
@@ -86,8 +90,8 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                         $_SESSION["user"] = $user;
                         try {
                             //lookup potential roles
-                            $stmt = $db->prepare("SELECT Roles.name FROM Roles 
-                        JOIN UserRoles on Roles.id = UserRoles.role_id 
+                            $stmt = $db->prepare("SELECT Roles.name FROM Roles
+                        JOIN UserRoles on Roles.id = UserRoles.role_id
                         where UserRoles.user_id = :user_id and Roles.is_active = 1 and UserRoles.is_active = 1");
                             $stmt->execute([":user_id" => $user["id"]]);
                             $roles = $stmt->fetchAll(PDO::FETCH_ASSOC); //fetch all since we'll want multiple
@@ -114,9 +118,4 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         }
     }
 }
-?> 
-
-<?php require_once(__DIR__ . "/../../partials/flash.php");
 ?>
-
-
