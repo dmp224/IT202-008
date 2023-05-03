@@ -85,31 +85,33 @@ if (isset($_POST["save"])) {
 $email = get_user_email();
 $username = get_username();
 ?>
+<div class="page container-fluid">
 <form method="POST" onsubmit="return validate(this);">
     <div class="mb-3">
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" value="<?php se($email); ?>" />
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" name="email" id="email" value="<?php se($email); ?>" />
     </div>
     <div class="mb-3">
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username" value="<?php se($username); ?>" />
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" name="username" id="username" value="<?php se($username); ?>" />
     </div>
     <!-- DO NOT PRELOAD PASSWORD -->
-    <div>Password Reset</div>
+    <h6>Password Reset</h6>
     <div class="mb-3">
-        <label for="cp">Current Password</label>
-        <input type="password" name="currentPassword" id="cp" />
+        <label for="cp" class="form-label">Current Password</label>
+        <input type="password" class="form-control" name="currentPassword" id="cp" />
     </div>
     <div class="mb-3">
-        <label for="np">New Password</label>
-        <input type="password" name="newPassword" id="np" />
+        <label for="np" class="form-label">New Password</label>
+        <input type="password" class="form-control" name="newPassword" id="np" />
     </div>
     <div class="mb-3">
-        <label for="conp">Confirm Password</label>
-        <input type="password" name="confirmPassword" id="conp" />
+        <label for="conp" class="form-label">Confirm Password</label>
+        <input type="password" class="form-control" name="confirmPassword" id="conp" />
     </div>
-    <input type="submit" value="Update Profile" name="save" />
+    <input type="submit" class="btn custom-button" value="Update Profile" name="save" />
 </form>
+</div>
 
 <script>
     function validate(form) {

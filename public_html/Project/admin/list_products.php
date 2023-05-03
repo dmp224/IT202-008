@@ -84,7 +84,7 @@ require_once(__DIR__ . "/../../../partials/flash.php");
         <div class="card product">
           <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" class="card-img-top" alt="...">
           <div class="card-body">
-            <h5 class="card-title"><?php se($product, "name"); ?></h5>
+            <h5 class="card-title product-name"><?php se($product, "name"); ?></h5>
             <h6 class="card-subtitle mb-2 product-price">$<?php se($product, "unit_price"); ?></h6>
             <p class="card-text">
               <a class="btn custom-button" href="<?php echo get_url('admin/edit_product.php?id='.$product['id']); ?>">Edit</a>

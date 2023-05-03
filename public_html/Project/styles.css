@@ -93,3 +93,7 @@ box-shadow: 0px 0px 5px 0.5px rgba(194,173,194,1);
 .update-product-quantity-form {
   margin: 0;
 }
+
+.product-name a {
+  color: black !important;
+}

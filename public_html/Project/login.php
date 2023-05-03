@@ -5,15 +5,15 @@ require_once(__DIR__ . "/../../partials/nav.php");
 <?php require_once(__DIR__ . "/../../partials/flash.php");
 ?>
 <form onsubmit="return validate(this)" method="POST">
-    <div>
-        <label for="email">Email/Username</label>
-        <input type="text" name="email" required />
+    <div class="mb-3">
+        <label class="form-label" for="email">Email/Username</label>
+        <input class="form-control" type="text" name="email" required />
     </div>
-    <div>
-        <label for="pw">Password</label>
-        <input type="password" id="pw" name="password" required minlength="8" />
+    <div class="mb-3"> 
+        <label class="form-label" for="pw">Password</label>
+        <input class="form-control" type="password" id="pw" name="password" required minlength="8" />
     </div>
-    <input type="submit" value="Login" />
+    <input type="submit" class="btn custom-button" value="Login" />
 </form>
 </div>
 <script>

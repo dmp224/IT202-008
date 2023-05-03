@@ -100,19 +100,21 @@ require(__DIR__ . "/../../partials/flash.php");
         <div class="card product">
           <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" class="card-img-top" alt="...">
           <div class="card-body">
-            <h5 class="card-title"><a href="<?php echo get_url('product.php?id='.$product['id']); ?>"><?php se($product, "name"); ?></a></h5>
+            <h5 class="card-title product-name"><a href="<?php echo get_url('product.php?id='.$product['id']); ?>"><?php se($product, "name"); ?></a></h5>
             <h6 class="card-subtitle mb-2 product-price">$<?php se($product, "unit_price"); ?></h6>
             <?php if (has_role("Admin") || has_role("Shop Owner")) : ?>
             <p class="card-text">
               <a class="btn custom-button" href="<?php echo get_url('admin/edit_product.php?id='.$product['id']); ?>">Edit</a>
-              <form method="POST">
-                  <input type="text" name="product_id" hidden value="<?php echo $product['id']; ?>">
-                  <input type="text" name="unit_price" hidden value="<?php se($product, "unit_price"); ?>">
-                  <input type="number" min="1" name="desired_quantity" class="form-control" placeholder="Desired Quantity" required value="<?php se($product, "desired_quantity"); ?>">
-                  <br>
-                  <input type="submit" class="btn custom-button-inv" name="cart_add" value="Add to cart">
-              </form>
             </p>
+            <?php endif; ?>
+            <?php if (is_logged_in()) : ?>
+            <form method="POST">
+                <input type="text" name="product_id" hidden value="<?php echo $product['id']; ?>">
+                <input type="text" name="unit_price" hidden value="<?php se($product, "unit_price"); ?>">
+                <input type="number" min="1" name="desired_quantity" class="form-control" placeholder="Desired Quantity" required value="<?php se($product, "desired_quantity"); ?>">
+                <br>
+                <input type="submit" class="btn custom-button-inv" name="cart_add" value="Add to cart">
+            </form>
             <?php endif; ?>
           </div>
         </div>
