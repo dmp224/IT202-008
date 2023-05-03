@@ -51,6 +51,9 @@ session_start();
         <li class="nav-item">
           <a class="nav-link" href="<?php echo get_url('cart.php'); ?>">Cart</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo get_url('orders.php'); ?>">My Orders</a>
+        </li>
         <?php endif; ?>
         <?php if (!is_logged_in()) : ?>
         <li class="nav-item">
@@ -58,6 +61,11 @@ session_start();
         </li>
         <li class="nav-item">
           <a class="nav-link" href="<?php echo get_url('register.php'); ?>">Register</a>
+        </li>
+        <?php endif; ?>
+        <?php if (has_role("Shop Owner")) : ?>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo get_url('admin/all_orders.php'); ?>">All Orders</a>
         </li>
         <?php endif; ?>
         <?php if (has_role("Admin")) : ?>

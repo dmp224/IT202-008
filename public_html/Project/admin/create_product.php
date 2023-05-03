@@ -13,7 +13,7 @@ if (isset($_POST["name"]) && isset($_POST["category"]) && isset($_POST["stock"])
     $category = se($_POST, "category", "", false);
     $stock = se($_POST, "stock", 0, false);
     $unit_price = se($_POST, "unit_price", 0.00, false);
-    $visibilty = isset($_POST['visibilty']) ? 1 : 0;;
+    $visibilty = isset($_POST['visibilty']) ? 1 : 0;
 
     if (empty($name)) {
         flash("Name is required", "warning");
