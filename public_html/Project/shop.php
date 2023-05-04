@@ -85,6 +85,7 @@ require(__DIR__ . "/../../partials/flash.php");
     <select class="form-select" name="sort" id="autoSizingSelect">
       <option selected>Sort by...</option>
       <option value="unit_price">Unit Price</option>
+      <option value="rating">Rating</option>
     </select>
   </div>
   <div class="col-auto">

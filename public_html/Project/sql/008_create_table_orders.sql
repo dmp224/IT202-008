@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS `Orders` (
     `user_id`    int,
     `total_price` DECIMAL(10,2) DEFAULT 0.00,
     `address` varchar(200) default '',
-    `payment_method` ENUM('Cash', 'Visa', 'MasterCard', 'Amex') DEFAULT 'cash',  
+    `payment_method` ENUM('Cash', 'Visa', 'MasterCard', 'Amex') DEFAULT 'Cash',  
     `money_received` DECIMAL(10,2) DEFAULT 0.00,  
     `first_name` varchar(100) default '', 
     `last_name` varchar(100) default '', 

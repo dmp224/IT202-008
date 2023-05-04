@@ -12,10 +12,15 @@ $params = [];
 $query .= " WHERE (visibility!=:visibility";
 $params =  [":visibility" => ''];
 
+// search by stock
+if (isset($_POST["out_of_stock"])) {
+  $query .= " AND stock < 1";
+}
+
 // search by category
 if (isset($_POST["category"])) {
   $category = se($_POST, "category", "", false);
-  $query .= "category LIKE :category";
+  $query .= " AND category LIKE :category";
   $params += [":category" => "%$category%"];
 }
 
@@ -75,6 +80,12 @@ require_once(__DIR__ . "/../../../partials/flash.php");
     <button type="submit" class="btn custom-button-inv">Search</button>
   </div>
 </form>
+<form class="row" method="POST">
+  <div class="col-auto">
+    <button type="submit" class="btn custom-button" name="out_of_stock">Out of Stock</button>
+  </div>
+</form>
+<br>
 <br>
 <div class="row products">
   <?php if (empty($products)) : ?>

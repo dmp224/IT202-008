@@ -3,16 +3,44 @@
 require(__DIR__ . "/../../partials/nav.php");
 is_logged_in(true);
 
+$query = "SELECT * from Orders";
+$params = null;
+$query .= " WHERE (id>:id";
+$params =  [":id" => 1];
+
+// search by start_date
+if (isset($_POST["start_date"])) {
+  $start_date = se($_POST, "start_date", "", false);
+  $query .= " AND created >= :start_date";
+  $params += [":start_date" => $start_date];
+}
+
+// search by end_date
+if (isset($_POST["end_date"])) {
+    $end_date = se($_POST, "end_date", "", false);
+    $query .= " AND created <= :end_date";
+    $params += [":end_date" => $end_date];
+  }
+
+// sort products
+$sort = 'created';
+if (isset($_POST["sort"])) {
+  $sort = se($_POST, "sort", "created", false);
+}
+$query .= ") ORDER BY :sort desc";
+$params += [":sort" => $sort];
+$query .= " LIMIT 10";
+
 $orders = [];
 $db = getDB();
-$stmt = $db->prepare("SELECT * from Orders where user_id = :id ORDER BY id DESC LIMIT 10");
+$stmt = $db->prepare($query);
 try {
-    $stmt->execute([":id" => get_user_id()]);
+    $stmt->execute($params);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($results) {
         $orders = $results;
     } else {
-        flash("No order items found!", "warning");
+        flash("No orders found!", "warning");
     }
 } catch (Exception $e) {
     flash("An unexpected error occurred, please try again".$e, "danger");
@@ -26,6 +54,29 @@ try {
 require(__DIR__ . "/../../partials/flash.php");
 ?>
 <h4>My Orders</h4>
+<form class="row" method="POST">
+  <div class="col">
+    <input type="datetime-local" class="form-control" name="start_date" placeholder="Start date" aria-label="Name">
+  </div>
+  <div class="col">
+    <input type="date" class="form-control" name="end_date" placeholder="End date" aria-label="Name">
+  </div>
+  <!-- <div class="col">
+    <input type="text" class="form-control" name="category" placeholder="Category" aria-label="Category">
+  </div> -->
+  <div class="col-auto">
+    <label class="visually-hidden" for="autoSizingSelect">Sort</label>
+    <select class="form-select" name="sort" id="autoSizingSelect">
+      <option selected>Sort by...</option>
+      <option value="total_price">Total</option>
+      <option value="created">Date Purchased</option>
+    </select>
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn custom-button-inv">Search</button>
+  </div>
+</form>
+<br>
 <div class="row">
     <div class="col-md-12">
         <table class="table">

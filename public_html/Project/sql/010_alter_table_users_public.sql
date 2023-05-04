@@ -1,0 +1,1 @@
+ALTER TABLE Users ADD COLUMN `visibility` ENUM('Public', 'Private') DEFAULT 'Public';
