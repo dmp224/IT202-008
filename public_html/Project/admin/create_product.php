@@ -13,7 +13,7 @@ if (isset($_POST["name"]) && isset($_POST["category"]) && isset($_POST["stock"])
     $category = se($_POST, "category", "", false);
     $stock = se($_POST, "stock", 0, false);
     $unit_price = se($_POST, "unit_price", 0.00, false);
-    $visibilty = isset($_POST['visibilty']) ? 1 : 0;
+    $visibility = isset($_POST['visibility']) ? 1 : 0;
 
     if (empty($name)) {
         flash("Name is required", "warning");
@@ -25,9 +25,9 @@ if (isset($_POST["name"]) && isset($_POST["category"]) && isset($_POST["stock"])
         flash("Unit price is required", "warning");
     }else {
         $db = getDB();
-        $stmt = $db->prepare("INSERT INTO Products (name, description, category, stock, unit_price, visibilty) VALUES(:name, :description, :category, :stock, :unit_price, :visibilty)");
+        $stmt = $db->prepare("INSERT INTO Products (name, description, category, stock, unit_price, visibility) VALUES(:name, :description, :category, :stock, :unit_price, :visibility)");
         try {
-            $stmt->execute([":name" => $name, ":description" => $description, ":category" => $category, ":stock" => $stock, ":unit_price" => $unit_price, ":visibilty" => $visibilty]);
+            $stmt->execute([":name" => $name, ":description" => $description, ":category" => $category, ":stock" => $stock, ":unit_price" => $unit_price, ":visibility" => $visibility]);
             flash("Successfully created product $name!", "success");
         } catch (PDOException $e) {
             if ($e->errorInfo[1] === 1062) {
@@ -69,7 +69,7 @@ require_once(__DIR__ . "/../../../partials/flash.php");
     <input type="number" name="unit_price" class="form-control" min="0.00" required>
   </div>
   <div class="mb-3 form-check">
-    <input type="checkbox" name="visibilty" class="form-check-input">
+    <input type="checkbox" name="visibility" class="form-check-input">
     <label class="form-check-label">Visibility</label>
   </div>
   <button type="submit" class="btn custom-button">Submit</button>
