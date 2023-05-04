@@ -25,7 +25,7 @@ try {
 <?php
 require_once(__DIR__ . "/../../../partials/flash.php");
 ?>
-<h4>Orders</h4>
+<h4>All Orders</h4>
 <div class="row">
     <div class="col-md-12">
         <table class="table">
