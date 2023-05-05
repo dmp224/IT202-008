@@ -109,6 +109,49 @@ try {
 if (isset($_POST["order"])) {   
     $error = false;
 
+    if (empty(se($_POST, "first_name", "", false))) {
+        flash("Payment method is required", "danger");
+        $error = true;
+    } else {
+        $payment_methods = array('Cash', 'Visa', 'MasterCard', 'Amex');
+        if (!in_array(se($_POST, "first_name", "", false), $payment_methods)) {
+            flash("Payment method is invalid", "danger");
+            $error = true;
+        }
+    }
+
+    if (empty(se($_POST, "address", "", false))) {
+        flash("Address is required", "danger");
+        $error = true;
+    }
+
+    if (empty(se($_POST, "apartment", "", false))) {
+        flash("Apartment is required", "danger");
+        $error = true;
+    }
+
+    if (empty(se($_POST, "city", "", false))) {
+        flash("City is required", "danger");
+        $error = true;
+    }
+
+    if (empty(se($_POST, "state", "", false))) {
+        flash("State is required", "danger");
+        $error = true;
+    }
+
+    if (empty(se($_POST, "country", "", false))) {
+        flash("Country is required", "danger");
+        $error = true;
+    }
+
+    if (empty(se($_POST, "zip", "", false))) {
+        flash("Zip is required", "danger");
+        $error = true;
+    }
+
+    // UICD - dmp224 
+    // Date - 05/03/2023
     foreach ($products as $product) {
         $stmt = $db->prepare("SELECT * from Products where id = :id LIMIT 1");
         $stmt->execute([":id" => $product["id"]]);
@@ -118,7 +161,7 @@ if (isset($_POST["order"])) {
             if ($org_product["unit_price"] != $product["unit_price"]) {
                 $update_stmt = $db->prepare("UPDATE Cart SET unit_price=:unit_price WHERE (product_id=:product_id AND user_id=:user_id)");
                 $update_stmt->execute([":unit_price" => $org_product["unit_price"], "product_id" => $product["id"], ":user_id" => get_user_id()]);
-                flash($product['name']." price has changed!", "warning");
+                flash($product['name']." price has changed by ".((($org_product["unit_price"] - $product["unit_price"])/$org_product["unit_price"])*100)."%", "warning");
             }
             // Verify desired product and desired quantity are still available in the Products table
             if($org_product["stock"] < $product["desired_quantity"]) {                
@@ -133,12 +176,38 @@ if (isset($_POST["order"])) {
         }
     }
 
+    // Verify money received
+    $money_received = se($_POST, "money_received", 0.00, false);
+    if ($money_received != $order_total) {
+        flash("Invalid amaount", "danger");
+        $error = true;
+    }
+
     if ($error == false) {
         $last_order = submitOrder($order_total);
         flash("Order submitted successfully!", "success");
         die(header("Location: order_confirmation.php?id=".$last_order));
-    }
+    } 
 
+    //select fresh data from table
+    $stmt = $db->prepare("SELECT Products.name AS name, Products.id AS id, Cart.unit_price AS unit_price, Cart.desired_quantity AS desired_quantity from Cart INNER JOIN Products ON Cart.product_id = Products.id where user_id = :id");
+    $total = 0;
+    try {
+        $stmt->execute([":id" => get_user_id()]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if ($results) {
+            $products = $results;
+            // Calculate Cart Items
+            foreach ($products as $product) {
+                $total += $product["unit_price"]*$product["desired_quantity"];
+            }
+        } else {
+            flash("No products in cart!", "warning");
+        }
+    } catch (Exception $e) {
+        flash("An unexpected error occurred, please try again", "danger");
+        //echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
+    }
 }
 ?>
 <div class="page container-fluid">
@@ -182,19 +251,19 @@ require(__DIR__ . "/../../partials/flash.php");
                 <div class="col">
                     <div class="mb-3">
                         <label for="np" class="form-label">First name</label>
-                        <input type="text" class="form-control" aria-label="First name" name="first_name">
+                        <input type="text" class="form-control" aria-label="First name" name="first_name" required>
                     </div>                    
                 </div>
                 <div class="col">
                     <div class="mb-3">
                         <label for="np" class="form-label">Last name</label>
-                        <input type="text" class="form-control" aria-label="Last name" name="last_name">
+                        <input type="text" class="form-control" aria-label="Last name" name="last_name" required>
                     </div>
                 </div>
             </div>
             <div class="mb-3">
                 <label for="np" class="form-label">Payment Method</label>
-                <select class="form-select" aria-label="Default select example" name="payment_method">
+                <select class="form-select" aria-label="Default select example" name="payment_method" required>
                     <option value="Cash">Cash</option>
                     <option value="Visa">Visa</option>
                     <option value="MasterCard">MasterCard</option>
@@ -203,23 +272,23 @@ require(__DIR__ . "/../../partials/flash.php");
             </div>
             <div class="mb-3">
                 <label for="np" class="form-label">Amount</label>
-                <input type="number" class="form-control" name="money_received"/>
+                <input type="number" class="form-control" name="money_received" required/>
             </div>
             <div class="mb-3">
                 <label for="np" class="form-label">Address</label>
-                <input type="text" class="form-control" name="address"/>
+                <input type="text" class="form-control" name="address" required/>
             </div>
             <div class="mb-3">
                 <label for="np" class="form-label">Apartment, Suite, etc.</label>
-                <input type="text" class="form-control" name="apartment"/>
+                <input type="text" class="form-control" name="apartment" required/>
             </div>
             <div class="mb-3">
                 <label for="np" class="form-label">City</label>
-                <input type="text" class="form-control" name="city"/>
+                <input type="text" class="form-control" name="city" required/>
             </div>
             <div class="mb-3">
                 <label for="np" class="form-label">State/Province</label>
-                <input type="text" class="form-control" name="state"/>
+                <input type="text" class="form-control" name="state" required/>
             </div>
             <div class="mb-3">
                 <label for="np" class="form-label">Country</label>
