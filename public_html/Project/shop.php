@@ -180,6 +180,8 @@ require(__DIR__ . "/../../partials/flash.php");
                 <br>
                 <input type="submit" class="btn custom-button-inv" name="cart_add" value="Add to cart">
             </form>
+            <?php else : ?>
+              <p>Login to add to cart</p>
             <?php endif; ?>
           </div>
         </div>
