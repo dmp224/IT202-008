@@ -7,44 +7,43 @@ if (!has_role("Admin")) {
     die(header("Location: " . get_url("home.php")));
 }
 
+$params = array();
+$where = array();
 $query = "SELECT id, name, unit_price from Products";
-$params = [];
-$query .= " WHERE (visibility!=:visibility";
-$params =  [":visibility" => ''];
 
 // search by stock
-if (isset($_POST["out_of_stock"])) {
-  $query .= " AND stock < 1";
+if(isset($_POST["out_of_stock"])) {
+  $params[':stock'] = 1;
+  $where[] = 'stock < :stock';
 }
 
 // search by category
-if (isset($_POST["category"])) {
-  $category = se($_POST, "category", "", false);
-  $query .= " AND category LIKE :category";
-  $params += [":category" => "%$category%"];
+$category = isset($_POST['category']) ? $_POST['category'] : null;
+if(!empty($category)){
+  $params[':category'] = $category;
+  $where[] = 'category = :category';
 }
 
 // search by name
-if (isset($_POST["name"])) {
-  $name = se($_POST, "name", "", false);
-  $query .= " AND name LIKE :name";
-  $params += [":name" => "%$name%"];
+$name = isset($_POST['name']) ? $_POST['name'] : null;
+if(!empty($name)){
+  $params[':name'] = "%$name%";
+  $where[] = 'name LIKE :name';
 }
 
 // sort products
-$sort = 'created';
-if (isset($_POST["sort"])) {
-  $sort = se($_POST, "sort", "created", false);
-}
-$query .= ") ORDER BY :sort desc";
-$params += [":sort" => "%$sort%"];
-$query .= " LIMIT 10";
+$query .= (sizeof($where) > 0 ? ' WHERE '.implode(' AND ', $where) : '');
 
+$sort = isset($_POST['sort']) ? $_POST['sort'] : 'created';
+$direction = isset($_POST['direction']) ? $_POST['direction'] : 'ASC';
+$query .= " ORDER BY $sort $direction LIMIT 10";
+
+$products = [];
 $db = getDB();
 $stmt = $db->prepare($query);
-$products = [];
+foreach($params as $k=>$v) $stmt->bindValue($k, $v);
 try {
-    $stmt->execute($params);
+    $stmt->execute();
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($results) {
         $products = $results;
@@ -64,16 +63,25 @@ require_once(__DIR__ . "/../../../partials/flash.php");
 <h4>Products</h4>
 <form class="row" method="POST">
   <div class="col">
-    <input type="text" class="form-control" name="name" placeholder="Product name" aria-label="Name">
+    <input type="text" class="form-control" name="name" value="<?php echo $name; ?>" placeholder="Product name" aria-label="Name">
   </div>
   <div class="col">
-    <input type="text" class="form-control" name="category" placeholder="Category" aria-label="Category">
+    <input type="text" class="form-control" name="category" value="<?php echo $category; ?>" placeholder="Category" aria-label="Category">
   </div>
   <div class="col-auto">
     <label class="visually-hidden" for="autoSizingSelect">Sort</label>
     <select class="form-select" name="sort" id="autoSizingSelect">
-      <option selected>Sort by...</option>
-      <option value="unit_price">Unit Price</option>
+      <option disabled selected>Sort by...</option>
+      <option value="unit_price" <?php if ($sort == 'unit_price') {echo 'selected';} ?>>Price</option>
+      <option value="created" <?php if ($sort == 'created') {echo 'selected';} ?>>Created</option>
+    </select>
+  </div>
+  <div class="col-auto">
+    <label class="visually-hidden" for="autoSizingSelect">Direction</label>
+    <select class="form-select" name="direction" id="autoSizingSelect">
+      <option disabled selected>Sort...</option>
+      <option value="ASC" <?php if ($direction == 'ASC') {echo 'selected';} ?>>Asc</option>
+      <option value="DESC" <?php if ($direction == 'DESC') {echo 'selected';} ?>>Desc</option>
     </select>
   </div>
   <div class="col-auto">

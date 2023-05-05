@@ -3,40 +3,39 @@
 require(__DIR__ . "/../../../partials/nav.php");
 is_logged_in(true);
 
+$params = array();
+$where = array();
+
 $query = "SELECT * from Orders";
-$params = null;
-$query .= " WHERE (id>:id";
-$params =  [":id" => 1];
 
-// search by start_date
-if (isset($_POST["start_date"])) {
-  $start_date = se($_POST, "start_date", "", false);
-  $query .= " AND created >= :start_date";
-  $params += [":start_date" => $start_date];
+// filter by start date
+$start_date = isset($_POST['start_date']) ? $_POST['start_date'] : null;
+if(!empty($start_date)){
+  $params[':start_date'] = $start_date;
+  $where[] = 'created > :start_date';
 }
 
-// search by end_date
-if (isset($_POST["end_date"])) {
-    $end_date = se($_POST, "end_date", "", false);
-    $query .= " AND created <= :end_date";
-    $params += [":end_date" => $end_date];
-  }
-
-// sort products
-$sort = 'created';
-if (isset($_POST["sort"])) {
-  $sort = se($_POST, "sort", "created", false);
+// filter by end date
+$end_date = isset($_POST['end_date']) ? $_POST['end_date'] : null;
+if(!empty($end_date)){
+  $params[':end_date'] = $end_date;
+  $where[] = 'created < :end_date';
 }
-$query .= ") ORDER BY :sort desc";
-$params += [":sort" => "%$sort%"];
-$query .= " LIMIT 10";
 
-$orders = [];
+$query .= (sizeof($where) > 0 ? ' WHERE '.implode(' AND ', $where) : '');
+
+$sort = isset($_POST['sort']) ? $_POST['sort'] : 'created';
+$direction = isset($_POST['direction']) ? $_POST['direction'] : 'ASC';
+$query .= " ORDER BY $sort $direction LIMIT 10";
+
 $total = 0;
+$orders = [];
 $db = getDB();
 $stmt = $db->prepare($query);
+foreach($params as $k=>$v) $stmt->bindValue($k, $v);
+
 try {
-    $stmt->execute($params);
+    $stmt->execute();
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($results) {
         $orders = $results;
@@ -50,8 +49,6 @@ try {
     flash("An unexpected error occurred, please try again".$e, "danger");
     //echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
 }
-
-
 ?>
 <div class="page container-fluid">
 <?php
@@ -63,17 +60,25 @@ require_once(__DIR__ . "/../../../partials/flash.php");
     <input type="datetime-local" class="form-control" name="start_date" placeholder="Start date" aria-label="Name">
   </div>
   <div class="col">
-    <input type="date" class="form-control" name="end_date" placeholder="End date" aria-label="Name">
+    <input type="datetime-local" class="form-control" name="end_date" placeholder="End date" aria-label="Name">
   </div>
-  <!-- <div class="col">
+  <div class="col">
     <input type="text" class="form-control" name="category" placeholder="Category" aria-label="Category">
-  </div> -->
+  </div>
   <div class="col-auto">
     <label class="visually-hidden" for="autoSizingSelect">Sort</label>
     <select class="form-select" name="sort" id="autoSizingSelect">
-      <option selected>Sort by...</option>
-      <option value="total_price">Total</option>
-      <option value="created">Date Purchased</option>
+      <option disabled selected>Sort by...</option>
+      <option value="total_price" <?php if ($sort == 'total_price') {echo 'selected';} ?>>Total</option>
+      <option value="created" <?php if ($sort == 'created') {echo 'selected';} ?>>Date Purchased</option>
+    </select>
+  </div>
+  <div class="col-auto">
+    <label class="visually-hidden" for="autoSizingSelect">Direction</label>
+    <select class="form-select" name="direction" id="autoSizingSelect">
+      <option disabled selected>Sort...</option>
+      <option value="ASC" <?php if ($direction == 'ASC') {echo 'selected';} ?>>Asc</option>
+      <option value="DESC" <?php if ($direction == 'DESC') {echo 'selected';} ?>>Desc</option>
     </select>
   </div>
   <div class="col-auto">
