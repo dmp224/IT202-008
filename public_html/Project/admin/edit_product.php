@@ -7,32 +7,8 @@ if (!has_role("Admin") || !has_role("Shop Owner")) {
     die(header("Location: " . get_url("home.php")));
 }
 
-if (isset($_GET["id"])) {
-  $id = se($_GET, "id", "", false);
-
-  $query = "SELECT id, name, description, category, stock, unit_price, visibility from Products";
-  $params = [];
-  $query .= " WHERE id=:id";
-  $params =  [":id" => $id];
-    
-  $db = getDB();
-  $stmt = $db->prepare($query);
-  $product = null;
-  try {
-      $stmt->execute($params);
-      $result = $stmt->fetch();
-      if ($result) {
-          $product = $result;
-      } else {
-          flash("No match found", "warning");
-      }
-  } catch (PDOException $e) {
-      flash(var_export($e->errorInfo, true), "danger");
-  }
-    
-}
-
 if (isset($_POST["name"]) && isset($_POST["category"]) && isset($_POST["stock"])) {
+  $id = se($_GET, "id", "", false);
   $name = se($_POST, "name", "", false);
   $description = se($_POST, "description", "", false);
   $category = se($_POST, "category", "", false);
@@ -63,6 +39,31 @@ if (isset($_POST["name"]) && isset($_POST["category"]) && isset($_POST["stock"])
       }
   }
 }
+
+if (isset($_GET["id"])) {
+  $id = se($_GET, "id", "", false);
+
+  $query = "SELECT id, name, description, category, stock, unit_price, visibility from Products";
+  $params = [];
+  $query .= " WHERE id=:id";
+  $params =  [":id" => $id];
+    
+  $db = getDB();
+  $stmt = $db->prepare($query);
+  $product = null;
+  try {
+      $stmt->execute($params);
+      $result = $stmt->fetch();
+      if ($result) {
+          $product = $result;
+      } else {
+          flash("No match found", "warning");
+      }
+  } catch (PDOException $e) {
+      flash(var_export($e->errorInfo, true), "danger");
+  }
+    
+}
 ?>
 
 <div class="page container-fluid">
@@ -83,7 +84,7 @@ require_once(__DIR__ . "/../../../partials/flash.php");
   </div>
   <div class="mb-3">
     <label class="form-label">Category</label>
-    <input type="text" name="category" value="<?php se($product, "description"); ?>" class="form-control" required>
+    <input type="text" name="category" value="<?php se($product, "category"); ?>" class="form-control" required>
   </div>
   <div class="mb-3">
     <label class="form-label">Stock</label>

@@ -109,12 +109,12 @@ try {
 if (isset($_POST["order"])) {   
     $error = false;
 
-    if (empty(se($_POST, "first_name", "", false))) {
+    if (empty(se($_POST, "payment_method", "", false))) {
         flash("Payment method is required", "danger");
         $error = true;
     } else {
         $payment_methods = array('Cash', 'Visa', 'MasterCard', 'Amex');
-        if (!in_array(se($_POST, "first_name", "", false), $payment_methods)) {
+        if (!in_array(se($_POST, "payment_method", "", false), $payment_methods)) {
             flash("Payment method is invalid", "danger");
             $error = true;
         }

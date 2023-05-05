@@ -12,7 +12,7 @@ if (!isset ($_GET['page']) ) {
 } else {  
   $page = $_GET['page'];  
 }
-$results_per_page = 5; 
+$results_per_page = 8; 
 $page_first_result = ($page-1) * $results_per_page; 
 $number_of_page = 1;  
 
@@ -20,7 +20,7 @@ $number_of_page = 1;
 // Date - 05/03/2023
 $params = array();
 $where = array();
-$query = "SELECT Products.id as id, name, unit_price, average_rating from Products";
+$query = "SELECT Products.id as id, name, unit_price, average_rating, visibility from Products";
 
 // search by category
 if (isset($_POST['category'])) {
@@ -145,6 +145,11 @@ require(__DIR__ . "/../../../partials/flash.php");
                 <span> <?php echo "- Rating ".$product['average_rating']; ?></span>
               <?php endif; ?>
             </h6>
+            <?php if ($product["visibility"] == 1) : ?>
+                <span> Visibilty: Visible</span>
+            <?php else : ?>
+                <span> Visibilty: Not Visible</span>
+            <?php endif; ?>
             <?php if (has_role("Admin") || has_role("Shop Owner")) : ?>
             <p class="card-text">
               <a class="btn custom-button" href="<?php echo get_url('admin/edit_product.php?id='.$product['id']); ?>">Edit</a>
