@@ -7,7 +7,7 @@ if (!isset ($_GET['page']) ) {
 } else {  
   $page = $_GET['page'];  
 }
-$results_per_page = 5; 
+$results_per_page = 12; 
 $page_first_result = ($page-1) * $results_per_page; 
 $number_of_page = 1;  
 
@@ -40,6 +40,10 @@ if (isset($_POST["cart_add"])) {
 $params = array();
 $where = array();
 $query = "SELECT Products.id as id, name, unit_price, average_rating from Products";
+
+// Visibilty
+$params[':visibility'] = 1;
+$where[] = 'visibility = :visibility';
 
 // search by category
 if (isset($_POST['category'])) {

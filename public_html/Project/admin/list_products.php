@@ -12,7 +12,7 @@ if (!isset ($_GET['page']) ) {
 } else {  
   $page = $_GET['page'];  
 }
-$results_per_page = 5; 
+$results_per_page = 8; 
 $page_first_result = ($page-1) * $results_per_page; 
 $number_of_page = 1;  
 
