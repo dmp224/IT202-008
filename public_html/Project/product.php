@@ -37,9 +37,19 @@ if (isset($_POST["review_product"])) {
         flash("Product id is required", "warning");
     } else {
         $db = getDB();
-        $stmt = $db->prepare("INSERT INTO Rating (user_id, product_id, rating, comment) VALUES(:user_id, :product_id, :rating, :comment)");
+        $stmt = $db->prepare("INSERT INTO Ratings (user_id, product_id, rating, comment) VALUES(:user_id, :product_id, :rating, :comment)");
         try {
             $stmt->execute([":user_id" => get_user_id(), "product_id" => $product_id, ":rating" => $rating, ":comment" => $comment]);
+
+            $stmt_rating = $db->prepare("SELECT AVG(rating) as average_rating from Ratings where product_id = :product_id");
+            $stmt_rating->execute([":product_id" => $product_id]);
+            $result = $stmt_rating->fetch();
+            if ($result) {
+                $average_rating = $result['average_rating'];
+
+                $stmt_update = $db->prepare("UPDATE Products SET average_rating=:average_rating WHERE id=:product_id");
+                $stmt_update->execute([":average_rating" => $average_rating, ":product_id" => $product_id]);
+            } 
             flash("Successfully reviewed product!", "success");
         } catch (PDOException $e) {
             flash(var_export($e->errorInfo, true), "danger");
@@ -51,7 +61,7 @@ if (isset($_POST["review_product"])) {
 if (isset($_GET["id"])) {
     $id = se($_GET, "id", "", false);
   
-    $query = "SELECT id, name, description, category, stock, unit_price, visibility from Products";
+    $query = "SELECT id, name, description, category, stock, unit_price, visibility, average_rating from Products";
     $params = [];
     $query .= " WHERE id=:id";
     $params =  [":id" => $id];
@@ -73,20 +83,6 @@ if (isset($_GET["id"])) {
 
     $db = getDB();
     //select fresh data from table
-    $stmt = $db->prepare("SELECT AVG(rating) as product_rating from Ratings where product_id = :product_id");
-    try {
-        $stmt->execute([":product_id" => $id]);
-        $result = $stmt->fetch();
-        if ($result) {
-            $product_rating = $result['product_rating'];
-        } 
-    } catch (Exception $e) {
-        flash("An unexpected error occurred, please try again", "danger");
-        //echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
-    }
-
-    $db = getDB();
-    //select fresh data from table
     $stmt = $db->prepare("SELECT Users.email AS email, Users.visibility AS profile_visibility, Products.name AS name, Products.id AS product_id, Ratings.rating AS rating, Ratings.comment AS comment from Ratings INNER JOIN Products ON Ratings.product_id = Products.id INNER JOIN Users ON Ratings.user_id = Users.id where product_id = :product_id");
     $ratings = [];
     try {
@@ -94,9 +90,7 @@ if (isset($_GET["id"])) {
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if ($results) {
             $ratings = $results;
-        } else {
-            flash("No product ratings!", "warning");
-        }
+        } 
     } catch (Exception $e) {
         flash("An unexpected error occurred, please try again", "danger");
         //echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
@@ -134,7 +128,7 @@ require(__DIR__ . "/../../partials/flash.php");
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Remaining: <?php se($product, "stock"); ?></li>
             <li class="list-group-item">Category: <?php se($product, "category"); ?></li>
-            <li class="list-group-item">Rating: <?php echo round($product_rating); ?></li>
+            <li class="list-group-item">Rating: <?php se($product, "average_rating"); ?></li>
         </ul>
         <?php if (has_role("Admin") || has_role("Shop Owner")) : ?>
         <p class="card-text">
@@ -196,6 +190,9 @@ require(__DIR__ . "/../../partials/flash.php");
             <br>
             <input type="submit" class="btn btn-info" name="review_product" value="Submit">
         </form>
+        <?php endif; ?>
+        <?php if (is_logged_in() && $ordered_item == false) : ?>
+            <p>Buy in order to preview</p>
         <?php endif; ?>
     </div>
 </div>
