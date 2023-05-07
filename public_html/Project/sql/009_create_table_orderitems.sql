@@ -8,5 +8,5 @@ CREATE TABLE IF NOT EXISTS `OrderItems` (
     `modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`order_id`) REFERENCES Orders(`id`),
-    FOREIGN KEY (`product_id`) REFERENCES Products(`id`),
+    FOREIGN KEY (`product_id`) REFERENCES Products(`id`)
 )
