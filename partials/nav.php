@@ -63,7 +63,7 @@ session_start();
           <a class="nav-link" href="<?php echo get_url('register.php'); ?>">Register</a>
         </li>
         <?php endif; ?>
-        <?php if (has_role("Shop Owner")) : ?>
+        <?php if (has_role("Shop Owner") || has_role("Admin")) : ?>
         <li class="nav-item">
           <a class="nav-link" href="<?php echo get_url('admin/all_orders.php'); ?>">All Orders</a>
         </li>
