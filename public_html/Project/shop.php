@@ -39,7 +39,7 @@ if (isset($_POST["cart_add"])) {
 // Date - 05/03/2023
 $params = array();
 $where = array();
-$query = "SELECT Products.id as id, name, unit_price, average_rating from Products";
+$query = "SELECT Products.id as id, name, image, unit_price, average_rating from Products";
 
 // Visibilty
 $params[':visibility'] = 1;
@@ -159,7 +159,11 @@ require(__DIR__ . "/../../partials/flash.php");
   <?php else : ?>
       <?php foreach ($products as $product) : ?>
         <div class="card product">
-          <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" class="card-img-top" alt="...">
+          <?php if (empty($product['image'])) : ?>
+              <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" class="card-img-top" alt="...">
+          <?php else : ?>
+              <img src="./uploads/<?php echo $product['image']; ?>" class="card-img-top" alt="...">
+          <?php endif; ?>
           <div class="card-body">
             <h5 class="card-title product-name"><a href="<?php echo get_url('product.php?id='.$product['id']); ?>"><?php se($product, "name"); ?></a></h5>
             <h6 class="card-subtitle mb-2 product-price">$<?php se($product, "unit_price"); ?>

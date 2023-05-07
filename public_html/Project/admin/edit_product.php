@@ -8,13 +8,21 @@ if (!has_role("Admin") || !has_role("Shop Owner")) {
 }
 
 if (isset($_POST["name"]) && isset($_POST["category"]) && isset($_POST["stock"])) {
+  $target_dir = "../uploads/";
   $id = se($_GET, "id", "", false);
   $name = se($_POST, "name", "", false);
   $description = se($_POST, "description", "", false);
   $category = se($_POST, "category", "", false);
   $stock = se($_POST, "stock", 0, false);
   $unit_price = se($_POST, "unit_price", 0.00, false);
-  $visibilty = isset($_POST['visibilty']) ? 1 : 0;;
+  $visibilty = isset($_POST['visibilty']) ? 1 : 0;
+  $image = $target_dir . basename($_FILES["image"]["name"]);
+
+  if (move_uploaded_file($_FILES["image"]["tmp_name"], $image)) {
+    $image = basename($_FILES["image"]["name"]);
+  } else {
+    $image = null;
+  }
 
   if (empty($name)) {
       flash("Name is required", "warning");
@@ -25,6 +33,16 @@ if (isset($_POST["name"]) && isset($_POST["category"]) && isset($_POST["stock"])
   } elseif (empty($unit_price)) {
       flash("Unit price is required", "warning");
   }else {
+    if (!empty($image)) {
+      $db = getDB();
+      $stmt = $db->prepare("UPDATE Products SET image=:image WHERE id=:pid");
+      try {
+        $stmt->execute([":image" => $image, ":pid" => $id]);
+      } catch (PDOException $e) {
+        flash(var_export($e->errorInfo, true), "danger");
+      }
+    }
+
       $db = getDB();
       $stmt = $db->prepare("UPDATE Products SET name=:name, description=:description, category=:category, stock=:stock, unit_price=:unit_price, visibility=:visibilty WHERE id=:pid");
       try {
@@ -43,7 +61,7 @@ if (isset($_POST["name"]) && isset($_POST["category"]) && isset($_POST["stock"])
 if (isset($_GET["id"])) {
   $id = se($_GET, "id", "", false);
 
-  $query = "SELECT id, name, description, category, stock, unit_price, visibility from Products";
+  $query = "SELECT id, name, image, description, category, stock, unit_price, visibility from Products";
   $params = [];
   $query .= " WHERE id=:id";
   $params =  [":id" => $id];
@@ -72,11 +90,20 @@ if (isset($_GET["id"])) {
 require_once(__DIR__ . "/../../../partials/flash.php");
 ?>
 <h4>Edit Product</h4>
-<form  method="POST">
+<form  method="POST"  enctype="multipart/form-data">
   <div class="mb-3">
-    <label for="name" class="form-label">Name</label>
+    <label for="name" class="form-lnamenameabel">Name</label>
     <input type="text" value="<?php se($product, "name"); ?>" class="form-control" name="name" id="productName" aria-describedby="ProductNameHelp" required>
     <div id="ProductNameHelp" class="form-text">Product name should be unique.</div>
+  </div>
+  <div class="mb-3">
+    <label for="image" class="form-label">Image - 
+      <span><?php se($product, "image"); ?></span>
+      <?php if (empty($product['image'])) : ?>
+        <span>No image uploaded</span>
+      <?php endif; ?>
+    </label>
+    <input type="file" name="image" class="form-control" required>
   </div>
   <div class="mb-3">
     <label for="description" class="form-label">Description</label>

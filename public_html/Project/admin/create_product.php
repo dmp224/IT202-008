@@ -8,12 +8,20 @@ if (!has_role("Admin") || !has_role("Shop Owner")) {
 }
 
 if (isset($_POST["name"]) && isset($_POST["category"]) && isset($_POST["stock"])) {
+    $target_dir = "../uploads/";
     $name = se($_POST, "name", "", false);
     $description = se($_POST, "description", "", false);
     $category = se($_POST, "category", "", false);
     $stock = se($_POST, "stock", 0, false);
     $unit_price = se($_POST, "unit_price", 0.00, false);
     $visibility = isset($_POST['visibility']) ? 1 : 0;
+    $image = $target_dir . basename($_FILES["image"]["name"]);
+
+    if (move_uploaded_file($_FILES["image"]["tmp_name"], $image)) {
+      $image = basename($_FILES["image"]["name"]);
+    } else {
+      $image = null;
+    }
 
     if (empty($name)) {
         flash("Name is required", "warning");
@@ -25,9 +33,9 @@ if (isset($_POST["name"]) && isset($_POST["category"]) && isset($_POST["stock"])
         flash("Unit price is required", "warning");
     }else {
         $db = getDB();
-        $stmt = $db->prepare("INSERT INTO Products (name, description, category, stock, unit_price, visibility) VALUES(:name, :description, :category, :stock, :unit_price, :visibility)");
+        $stmt = $db->prepare("INSERT INTO Products (name, image, description, category, stock, unit_price, visibility) VALUES(:name, :image, :description, :category, :stock, :unit_price, :visibility)");
         try {
-            $stmt->execute([":name" => $name, ":description" => $description, ":category" => $category, ":stock" => $stock, ":unit_price" => $unit_price, ":visibility" => $visibility]);
+            $stmt->execute([":name" => $name, ":image" => $image, ":description" => $description, ":category" => $category, ":stock" => $stock, ":unit_price" => $unit_price, ":visibility" => $visibility]);
             flash("Successfully created product $name!", "success");
         } catch (PDOException $e) {
             if ($e->errorInfo[1] === 1062) {
@@ -46,11 +54,15 @@ if (isset($_POST["name"]) && isset($_POST["category"]) && isset($_POST["stock"])
 require_once(__DIR__ . "/../../../partials/flash.php");
 ?>
 <h4>Create Product</h4>
-<form  method="POST">
+<form  method="POST" enctype="multipart/form-data">
   <div class="mb-3">
     <label for="name" class="form-label">Name</label>
     <input type="text" class="form-control" name="name" id="productName" aria-describedby="ProductNameHelp" required>
     <div id="ProductNameHelp" class="form-text">Product name should be unique.</div>
+  </div>
+  <div class="mb-3">
+    <label for="image" class="form-label">Image</label>
+    <input type="file" name="image" class="form-control" required>
   </div>
   <div class="mb-3">
     <label for="description" class="form-label">Description</label>
