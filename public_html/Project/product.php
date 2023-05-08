@@ -61,7 +61,7 @@ if (isset($_POST["review_product"])) {
 if (isset($_GET["id"])) {
     $id = se($_GET, "id", "", false);
   
-    $query = "SELECT id, name, description, category, stock, unit_price, visibility, average_rating from Products";
+    $query = "SELECT id, name, image, description, category, stock, unit_price, visibility, average_rating from Products";
     $params = [];
     $query .= " WHERE id=:id";
     $params =  [":id" => $id];
@@ -119,7 +119,11 @@ require(__DIR__ . "/../../partials/flash.php");
 ?>
 <h4>Product</h4>
 <div class="card">
-    <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" class="card-img-top" alt="..." height="300">
+    <?php if (empty($product['image'])) : ?>
+        <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" class="card-img-top" alt="..." height="300">
+    <?php else : ?>
+        <img src="./uploads/<?php echo $product['image']; ?>" class="card-img-top" alt="..." style="max-width: 500px !important;max-height: 600px !important;">
+    <?php endif; ?>
     <div class="card-body">
         <h5 class="card-title"><?php se($product, "name"); ?></h5>
         <h6 class="card-subtitle mb-2 product-price">$<?php se($product, "unit_price"); ?></h6>
