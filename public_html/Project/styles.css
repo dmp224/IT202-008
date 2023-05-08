@@ -1,0 +1,110 @@
+.alert-success {
+    background-color: green
+}
+
+.alert-warning {
+    background-color: yellow;
+}
+
+.alert-danger {
+    background-color: red;
+}
+
+.alert-info {
+    background-color: teal;
+}
+/* nav li{display: inline; background-color: rebeccapurple;} */
+/* nav li a{color: hotpink} */
+/* input{border-radius: 50%;}
+body{
+    background-color: hotpink;
+    color: rgb(153, 0, 153);
+
+} */
+
+.navbar {
+  border-bottom: 2px solid hotpink;
+  box-shadow: 0 1px 4px -1px hotpink;
+  background-color: #fff;
+}
+
+.navbar-brand {
+  color: hotpink !important;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.logout-link {
+  text-decoration: none;
+  color: gray;
+}
+
+.page {
+  margin-top: 80px;
+}
+
+.custom-button {
+  background-color: hotpink !important;
+}
+
+.products {
+  padding: 0 12px;
+  width: 100%;
+}
+
+.product {
+  width: 20% !important;
+  margin-right: 5%;
+  margin-bottom: 24px;
+  padding: 0 !important;
+  cursor: pointer;
+}
+
+.product:hover {
+  -webkit-box-shadow: 0px 0px 5px 0.5px rgba(194,173,194,1);
+-moz-box-shadow: 0px 0px 5px 0.5px rgba(194,173,194,1);
+box-shadow: 0px 0px 5px 0.5px rgba(194,173,194,1);
+}
+
+.product-price {
+  color: hotpink !important;
+  font-weight: bold;
+}
+
+.custom-button-inv {
+  background-color: black !important;
+  color: hotpink !important;
+}
+
+.cart-total {
+  float: right;
+  margin-right: 10%;
+}
+
+.delete {
+  text-decoration: none;
+  color: red;
+}
+
+.cart-item-quantity {
+  width: 30%;
+}
+
+.update-product-quantity-form {
+  margin: 0;
+}
+
+.product-name a {
+  color: black !important;
+}
+
+.checkout-form {
+  border-left: 1px solid lightpink;
+  padding: 0 24px;
+}
+
+.thankyou {
+  color: hotpink;
+  text-transform: uppercase;
+  font-style: italic;
+}
