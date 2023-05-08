@@ -93,3 +93,18 @@ box-shadow: 0px 0px 5px 0.5px rgba(194,173,194,1);
 .update-product-quantity-form {
   margin: 0;
 }
+
+.product-name a {
+  color: black !important;
+}
+
+.checkout-form {
+  border-left: 1px solid lightpink;
+  padding: 0 24px;
+}
+
+.thankyou {
+  color: hotpink;
+  text-transform: uppercase;
+  font-style: italic;
+}
