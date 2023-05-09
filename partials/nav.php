@@ -32,7 +32,7 @@ session_start();
 
 <nav class="navbar navbar-expand-md fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="<?php echo get_url('index.php'); ?>">Pink Shop</a>
+    <a class="navbar-brand" href="<?php echo get_url('shop.php'); ?>">Pink Shop</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -63,7 +63,7 @@ session_start();
           <a class="nav-link" href="<?php echo get_url('register.php'); ?>">Register</a>
         </li>
         <?php endif; ?>
-        <?php if (has_role("Shop Owner")) : ?>
+        <?php if (has_role("Shop Owner") || has_role("Admin")) : ?>
         <li class="nav-item">
           <a class="nav-link" href="<?php echo get_url('admin/all_orders.php'); ?>">All Orders</a>
         </li>

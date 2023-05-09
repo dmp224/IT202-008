@@ -6,10 +6,11 @@ is_logged_in(true);
 if (isset($_POST["save"])) {
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
+    $visibility = se($_POST, "visibility", null, false);
 
-    $params = [":email" => $email, ":username" => $username, ":id" => get_user_id()];
+    $params = [":email" => $email, ":username" => $username, "visibility" => $visibility, ":id" => get_user_id()];
     $db = getDB();
-    $stmt = $db->prepare("UPDATE Users set email = :email, username = :username where id = :id");
+    $stmt = $db->prepare("UPDATE Users set email = :email, username = :username, visibility = :visibility where id = :id");
     try {
         $stmt->execute($params);
         flash("Profile saved", "success");
@@ -79,14 +80,38 @@ if (isset($_POST["save"])) {
         }
     }
 }
+
 ?>
 
 <?php
 $email = get_user_email();
 $username = get_username();
+$visibility = get_user_profile_visibility();
+
+$db = getDB();
+//select fresh data from table
+$stmt = $db->prepare("SELECT Products.name AS name, Products.id AS product_id, Ratings.rating AS rating, Ratings.comment AS comment from Ratings INNER JOIN Products ON Ratings.product_id = Products.id where user_id = :id");
+$ratings = [];
+try {
+    $stmt->execute([":id" => get_user_id()]);
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($results) {
+        $ratings = $results;
+    } else {
+        flash("No product ratings!", "warning");
+    }
+} catch (Exception $e) {
+    flash("An unexpected error occurred, please try again", "danger");
+    //echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
+}
 ?>
 <div class="page container-fluid">
-<form method="POST" onsubmit="return validate(this);">
+<?php
+require_once(__DIR__ . "/../../partials/flash.php");
+?>
+<div class="row">
+<form class="col-md-7" method="POST" onsubmit="return validate(this);">
+<h4>Profile</h4>
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
         <input type="email" class="form-control" name="email" id="email" value="<?php se($email); ?>" />
@@ -94,6 +119,13 @@ $username = get_username();
     <div class="mb-3">
         <label for="username" class="form-label">Username</label>
         <input type="text" class="form-control" name="username" id="username" value="<?php se($username); ?>" />
+    </div>
+    <div class="mb-3">
+        <label for="np" class="form-label">Profile visibilty</label>
+        <select class="form-select" aria-label="Default select example" name="visibility">
+            <option <?php if ($visibility == 'Public') {echo 'selected';} ?> value="Public">Public</option>
+            <option <?php if ($visibility == 'Private') {echo 'selected';} ?> value="Private">Private</option>
+        </select>
     </div>
     <!-- DO NOT PRELOAD PASSWORD -->
     <h6>Password Reset</h6>
@@ -111,6 +143,28 @@ $username = get_username();
     </div>
     <input type="submit" class="btn custom-button" value="Update Profile" name="save" />
 </form>
+<!-- <hr> -->
+
+<div class="col-md-5">
+<h4>My Reviews</h4>
+  <?php if (empty($ratings)) : ?>
+    <p></p>
+  <?php else : ?>
+      <?php foreach ($ratings as $rating) : ?>
+        <div class="card col-md-12">
+          <div class="card-body">
+            <h5 class="card-title product-name"><a href="<?php echo get_url('product.php?id='.$rating['product_id']); ?>"><?php se($rating, "name"); ?></a></h5>
+            <p class="card-text">
+                <span><strong>Rating:</strong> <?php se($rating, "rating"); ?></span>
+                <br>
+                <span><strong>Comment:</strong> <?php se($rating, "comment"); ?></span>
+            </p>
+          </div>
+        </div>
+      <?php endforeach; ?>
+  <?php endif; ?>
+</div>
+</div>
 </div>
 
 <script>
@@ -129,6 +183,3 @@ $username = get_username();
         return isValid;
     }
 </script>
-<?php
-require_once(__DIR__ . "/../../partials/flash.php");
-?>
