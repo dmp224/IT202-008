@@ -1,6 +1,6 @@
 <table><tr><td> <em>Assignment: </em> IT202 Milestone 2 Shop Project</td></tr>
 <tr><td> <em>Student: </em> Dileesha Patel (dmp224)</td></tr>
-<tr><td> <em>Generated: </em> 5/8/2023 5:35:58 PM</td></tr>
+<tr><td> <em>Generated: </em> 5/8/2023 10:55:11 PM</td></tr>
 <tr><td> <em>Grading Link: </em> <a rel="noreferrer noopener" href="https://learn.ethereallab.app/homework/IT202-008-S23/it202-milestone-2-shop-project/grade/dmp224" target="_blank">Grading</a></td></tr></table>
 <table><tr><td> <em>Instructions: </em> <ol><li>Checkout Milestone2 branch</li><li>Create a new markdown file called milestone2.md</li><li>git add/commit/push immediate</li><li>Fill in the below deliverables</li><li>At the end copy the markdown and paste it into milestone2.md</li><li>Add/commit/push the changes to Milestone2</li><li>PR Milestone2 to dev and verify</li><li>PR dev to prod and verify</li><li>Checkout dev locally and pull changes to get ready for Milestone 3</li><li>Submit the direct link to this new milestone2.md file from your GitHub prod branch to Canvas</li></ol><p>Note: Ensure all images appear properly on github and everywhere else. Images are only accepted from dev or prod, not local host. All website links must be from prod (you can assume/infer this by getting your dev URL and changing dev to prod).</p></td></tr></table>
 <table><tr><td> <em>Deliverable 1: </em> Users with admin or shop owner will be able to add products </td></tr><tr><td><em>Status: </em> <img width="100" height="20" src="https://user-images.githubusercontent.com/54863474/211707834-bf5a5b13-ec36-4597-9741-aa830c195be2.png"></td></tr>
@@ -185,10 +185,10 @@
 </td></tr>
 </table></td></tr>
 <tr><td> <em>Sub-Task 2: </em> Add a before and after screenshot of clearing the cart</td></tr>
-<tr><td><table><tr><td><img width="768px" src="https://user-images.githubusercontent.com/106767773/236937306-aa0aa4d4-88c8-49c1-ab82-4872ca4a6eee.png"/></td></tr>
+<tr><td><table><tr><td><img width="768px" src="https://user-images.githubusercontent.com/106767773/236980328-9c6bbb24-9521-4b0f-91f7-551916e093fa.png"/></td></tr>
 <tr><td> <em>Caption:</em> <p>Before<br></p>
 </td></tr>
-<tr><td><img width="768px" src="https://user-images.githubusercontent.com/106767773/236937393-4f4a07db-af17-44b2-b7c9-99953a62ec23.png"/></td></tr>
+<tr><td><img width="768px" src="https://user-images.githubusercontent.com/106767773/236980338-af59b258-a1f7-418b-9140-9d6b9726d2ca.png"/></td></tr>
 <tr><td> <em>Caption:</em> <p>After<br></p>
 </td></tr>
 </table></td></tr>
