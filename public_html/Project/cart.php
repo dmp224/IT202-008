@@ -58,7 +58,7 @@ if (isset($_POST["clear_cart"])) {
 
 $db = getDB();
 //select fresh data from table
-$stmt = $db->prepare("SELECT * from Cart INNER JOIN Products ON Cart.product_id = Products.id where user_id = :id");
+$stmt = $db->prepare("SELECT Products.name AS name, Products.id AS id, Cart.unit_price AS unit_price, Cart.desired_quantity AS desired_quantity from Cart INNER JOIN Products ON Cart.product_id = Products.id where user_id = :id");
 $products = [];
 $total = 0;
 try {
@@ -100,7 +100,7 @@ require(__DIR__ . "/../../partials/flash.php");
             <td><?php echo '$'.$product["unit_price"]; ?></td>
             <td>
                 <form method="Post" class="update-product-quantity-form">
-                    <input type="text" name="product_id" hidden value="<?php se($product, "product_id"); ?>">
+                    <input type="text" name="product_id" hidden value="<?php se($product, "id"); ?>">
                     <input type="number" name="desired_quantity" min="0" class="cart-item-quantity" required value="<?php se($product, "desired_quantity"); ?>">
                     <input type="submit" name="quantity_update" value="Update">
                 </form>
@@ -108,7 +108,7 @@ require(__DIR__ . "/../../partials/flash.php");
             <td><?php echo '$'.$product["unit_price"]*$product["desired_quantity"]; ?></td>
             <td>
                 <form method="Post" class="update-product-quantity-form">
-                    <input type="text" name="product_id" hidden value="<?php se($product, "product_id"); ?>">
+                    <input type="text" name="product_id" hidden value="<?php se($product, "id"); ?>">
                     <input class="btn btn-danger" type="submit" value="Remove" name="remove_product">
                 </form>
             </td>
@@ -121,4 +121,6 @@ require(__DIR__ . "/../../partials/flash.php");
 <form method="Post" class="update-product-quantity-form">
     <input class="btn btn-info" type="submit" value="Clear cart" name="clear_cart">
 </form>
+<br>
+<a class="btn custom-button-inv" aria-current="page" href="<?php echo get_url('checkout.php'); ?>">Place Order</a>
 </div>
