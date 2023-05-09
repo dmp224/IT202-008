@@ -1,6 +1,10 @@
 <table><tr><td> <em>Assignment: </em> IT202 Milestone 3 Shop Project</td></tr>
 <tr><td> <em>Student: </em> Dileesha Patel (dmp224)</td></tr>
+<<<<<<< HEAD
+<tr><td> <em>Generated: </em> 5/8/2023 10:58:41 PM</td></tr>
+=======
 <tr><td> <em>Generated: </em> 5/8/2023 9:26:56 PM</td></tr>
+>>>>>>> cb16b88f8dbd96e164d869357d87b87a697ca2b9
 <tr><td> <em>Grading Link: </em> <a rel="noreferrer noopener" href="https://learn.ethereallab.app/homework/IT202-008-S23/it202-milestone-3-shop-project/grade/dmp224" target="_blank">Grading</a></td></tr></table>
 <table><tr><td> <em>Instructions: </em> <ol><li>Checkout Milestone3 branch</li><li>Create a new markdown file called milestone3.md</li><li>git add/commit/push immediate</li><li>Fill in the below deliverables</li><li>At the end copy the markdown and paste it into milestone3.md</li><li>Add/commit/push the changes to Milestone3</li><li>PR Milestone3 to dev and verify</li><li>PR dev to prod and verify</li><li>Checkout dev locally and pull changes to get ready for Milestone 4</li><li>Submit the direct link to this new milestone3.md file from your GitHub prod branch to Canvas</li></ol><p>Note: Ensure all images appear properly on GitHub and everywhere else. Images are only accepted from dev or prod, not localhost. All website links must be from prod (you can assume/infer this by getting your dev URL and changing dev to prod).</p></td></tr></table>
 <table><tr><td> <em>Deliverable 1: </em> Orders will be able to be recorded </td></tr><tr><td><em>Status: </em> <img width="100" height="20" src="https://user-images.githubusercontent.com/54863474/211707834-bf5a5b13-ec36-4597-9741-aa830c195be2.png"></td></tr>
@@ -42,8 +46,17 @@
 </td></tr>
 </table></td></tr>
 <tr><td> <em>Sub-Task 6: </em> Add a screenshot showing the Order Process validations from the UI (Heroku)</td></tr>
+<<<<<<< HEAD
+<tr><td><table><tr><td><img width="768px" src="https://user-images.githubusercontent.com/106767773/236980328-9c6bbb24-9521-4b0f-91f7-551916e093fa.png"/></td></tr>
+<tr><td> <em>Caption:</em> <p>Unavailable stock error<br></p>
+</td></tr>
+<tr><td><img width="768px" src="https://user-images.githubusercontent.com/106767773/236980338-af59b258-a1f7-418b-9140-9d6b9726d2ca.png"/></td></tr>
+<tr><td> <em>Caption:</em> <p>Price change<br></p>
+</td></tr>
+=======
 <tr><td><table><tr><td>Missing Image</td></tr>
 <tr><td> <em>Caption:</em> (missing)</td></tr>
+>>>>>>> cb16b88f8dbd96e164d869357d87b87a697ca2b9
 </table></td></tr>
 <tr><td> <em>Sub-Task 7: </em> Briefly describe the code flow/process of the purchase process</td></tr>
 <tr><td> <em>Response:</em> <div>- On the order page, the user gets to see the summary of<br>products they want to order</div><div>- They also have a form to put in<br>their address information, preloaded if available</div><div>- A user fills in the address information<br>and submits</div><div>- The data is validated to ensure that all the information is<br>available and correct (Payment method and address)</div><div>- Using the products in the cart,<br>we compare the unit price in the cart against the unit price in<br>the products table</div><div>- If the price varies, the user id notified of the<br>%change in price and asked to adjust money received</div><div>- We also compare the<br>requested quanity for a product against the available stock</div><div>- If the stock is<br>below the requested amount then the user can't proceed and has to adjust<br>the requested quanity</div><div>- If there are no errors, the order is created</div><div>- The<br>order items are copied from the cart and order_id attached</div><div>- The cart items<br>are then deleted and user redirected to order confirmation page</div><br></td></tr>
