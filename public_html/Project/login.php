@@ -66,6 +66,8 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
             flash("Invalid username");
             $hasError = true;
         }
+
+        //empty//
     }
     if (empty($password)) {
         flash("Password must be provided <br>");
